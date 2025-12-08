@@ -1,0 +1,174 @@
+---
+title: Deploy a Docusaurus website to GitHub Pages
+---
+
+# Deploy a Docusaurus website to GitHub Pages
+
+In this tutorial, you'll see how to deploy your Docusaurus website to GitHub Pages so it's live on the web. This tutorial is intended for non-technical users. It assumes you have knowledge of:
+
+- Basic computer operations
+- Using a web browser
+- Following simple command-line instructions
+
+By the end of this tutorial, you'll have seen how to:
+
+- Set up environment variables for authentication
+- Configure your Docusaurus project for GitHub Pages
+- Build and deploy your site
+
+## Background
+
+Docusaurus is a static site generator that you can use to create documentation sites quickly. 
+
+Docusaurus provides many of the same features as Jekyll, but with modern React components, you can build interactive docs.
+
+Using GitHub Pages enables you to host your site for free without needing a separate server.
+
+## Before you start 
+
+Before you start the tutorial, you have ensured the following:
+
+- Have Node.js (version 14 or higher) installed on your computer. 
+
+  Download it from [nodejs.org](https://nodejs.org).
+- Have the Yarn package manager installed. 
+
+  If you don't have it, run `npm install -g yarn` in your terminal.
+- Have a free GitHub account. 
+
+  Sign up at [github.com](https://github.com) if needed.
+- Have Git installed and configured locally, so you can pull and push to GitHub. 
+
+  Download from [git-scm.com](https://git-scm.com).
+
+## Prepare for deployment
+
+To get started, set up the required authentication and branches for GitHub Pages.
+
+1. Create a GitHub personal access token.
+
+   a.  To generate a classic token, follow the steps in GitHub's guide under [Creating a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic). 
+   
+   b. Make sure to grant it the `write:packages` and `read:packages` scopes ([Creating a GitHub personal access token with scopes selected](#token-settings), item 1).
+
+      ![Creating a GitHub personal access token with scopes selected](/img/screenshots/token-settings.png)
+
+
+2. Set the `NPM_GITHUB_AUTH_TOKEN` environment variable.
+
+   a. Open your terminal.
+   
+   b. In the following Command, replace `YOUR_PERSONAL_ACCESS_TOKEN` with the token you created. 
+   
+   c. Run the commmand:
+
+      ```bash
+      export NPM_GITHUB_AUTH_TOKEN="YOUR_PERSONAL_ACCESS_TOKEN"
+      ```
+   
+   For permanent setup on macOS/Linux, add this line to your `~/.zshrc` or `~/.bashrc` file and run `source ~/.zshrc`.
+  
+3. Set the `GIT_USER` environment variable.
+
+   a. In the following command, replace `your-github-username` with your actual GitHub usernamesame terminal.
+   
+   b. Run the commmand:
+
+      ```bash
+      export GIT_USER="your-github-username"
+      ```
+
+4. Create the `gh-pages` branch if it doesn't exist.
+
+   In your project directory, run:
+
+   ```bash
+   git checkout -b gh-pages
+   git add .
+   git commit -m "Create gh-pages branch"
+   git push -u origin gh-pages
+   ```
+
+   This creates a new branch for your built site and pushes it to GitHub.
+
+Your repository now has a `gh-pages` branch ready for deployment.
+   
+## Configure Docusaurus settings
+
+Now, update your project's configuration file to match your GitHub details.
+
+1. Open the `docusaurus.config.ts` file.
+
+   Use a text editor like VS Code to open `docusaurus.config.ts` in your project root.   
+
+2. Edit the URL, baseUrl, organizationName, and projectName settings.
+
+   a. Find the relevant section and update it like this (replace with your details):
+
+      ```ts
+      // Set the production url of your site here
+      url: 'https://your-github-username.github.io',
+      // Set the /<baseUrl>/ pathname under which your site is served
+      // For GitHub Pages deployment, it is often '/<projectName>/'
+      baseUrl: '/your-repository-name/',
+
+      // GitHub Pages deployment config. If you aren't using GitHub Pages, you don't need these.
+      organizationName: 'your-github-username', // your GitHub org/user name
+      projectName: 'your-repository-name', // your repo name
+      ```
+      :::note Tip
+      For a repo named `my-docs` under user `example-user`, use `url: 'https://example-user.github.io'`, `baseUrl: '/my-docs/'`, etc.
+      :::
+
+   b. Save the file.
+
+## Deploy the site
+
+Finally, build and push your site to GitHub Pages.
+
+1. Run the deployment command.
+
+   In your terminal, in the project directory, run:
+
+   ```bash
+   yarn deploy
+   ```
+
+   This builds the static site and pushes it to the `gh-pages` branch.
+
+
+   Your site is now deployed. It may take a few minutes for GitHub Pages to process the changes.
+
+
+2. View your deployed site.
+
+   Open a web browser and go to `https://your-github-username.github.io/your-repository-name/`.
+## Summary
+
+In this tutorial, you've now seen how to:
+
+- Set up authentication tokens and environment variables for secure deployment
+- Configure your Docusaurus project for GitHub Pages hosting
+- Deploy your site using a single command and access it online
+
+
+## Next steps
+
+Consider completing some other common tasks using Docusaurus:
+
+- Set up a custom domain for your GitHub Pages site.
+- Integrate analytics to track visitors.
+- Familiarise yourself with the [Style guide](/docs/templates/2-style-guide.mdx).
+- Draw inspiration from best-practice documentation examples.
+
+  Good technical documentation is goal-oriented and structured around real-world use cases. It ideally includes:
+
+   - a clearly stated **goal / learning objective**
+   - a brief **advance organiser** (overview of what’s coming)
+   - explicit **prerequisites**
+   - precise **step-by-step procedures**
+   - a description of the **expected result**
+   - **clear text-to-image references** (e.g., “see Figure 2”)
+   - **numbered callouts** placed directly on screenshots (① ② ③ …)
+
+  A very solid real-world example that follows these principles is the [OXID eSales PayPal Checkout documentation](https://docs.oxid-esales.com/modules/paypal-checkout/en/latest/).

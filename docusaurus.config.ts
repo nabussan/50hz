@@ -22,8 +22,10 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'philstollery', // Usually your GitHub org/user name.
-  projectName: 'github-usaurus', // Usually your repo name.
+  organizationName: 'nabussan', // Usually your GitHub org/user name.
+  projectName: '50hz', // Usually your repo name.
+
+  staticDirectories: ['static'],
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
@@ -42,11 +44,13 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/PhilStollery/github-usaurus/',
         },
+
         blog: {
           showReadingTime: true,
           feedOptions: {
@@ -64,7 +68,14 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-
+  // ──────────────────────────────────────────────────────────────
+  // Ignoriere kaputte Markdown-Bilder (z. B. ../tutorial-extras/…)
+  // ──────────────────────────────────────────────────────────────
+  markdown: {
+    hooks: {
+      onBrokenMarkdownImages: 'ignore',
+    },
+  },
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -138,6 +149,7 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+  
 };
 
 export default config;
